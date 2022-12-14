@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { apiURl } from '../api'
+import { useRouter } from 'next/router'
+import { apiNextURl } from '../api'
 import { createCookie } from '../utils'
 
-const Login = ({ history }) => {
+export default function Login() {
+  const router = useRouter();
   const [state, setState] = useState({
     email: '',
     password: '',
@@ -12,7 +14,7 @@ const Login = ({ history }) => {
 
   const { email, password, isSubmitting, message } = state
 
-  const handleChange = async e => {
+  const handleChange = async (e: any) => {
     const { name, value } = e.target
     await setState({ ...state, [name]: value })
   }
@@ -22,7 +24,7 @@ const Login = ({ history }) => {
 
     const { email, password } = state
     try {
-      const res = await fetch(`${apiURl}/login`, {
+      const res = await fetch(`${apiNextURl}/login`, {
         method: 'POST',
         body: JSON.stringify({
           email,
@@ -45,8 +47,8 @@ const Login = ({ history }) => {
       // expire in 30 minutes(same time as the cookie is invalidated on the backend)
       createCookie('token', token, 0.5)
 
-      history.push({ pathname: '/session', state: user })
-    } catch (e) {
+      router.push({ pathname: '/session' })
+    } catch (e: any) {
       setState({ ...state, message: e.toString(), isSubmitting: false })
     }
   }
@@ -83,5 +85,3 @@ const Login = ({ history }) => {
     </div>
   )
 }
-
-export default Login

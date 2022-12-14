@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
-import { apiURl } from '../api'
+import { useRouter } from 'next/router';
+import { apiNextURl } from '../api'
 
-const Register = ({ history }) => {
-  const [state, setState] = useState({
+export default function Register() {
+  const router = useRouter();
+  const [state, setState] = useState<any>({
     email: '',
     password: '',
     name: '',
@@ -13,25 +15,22 @@ const Register = ({ history }) => {
 
   const { email, password, name, message, isSubmitting, errors } = state
 
-  const handleChange = async e => {
+  const handleChange = async (e: any) => {
     await setState({ ...state, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = async e => {
+  const handleSubmit = async () => {
     setState({ ...state, isSubmitting: true })
 
     const { email, password, name } = state
     try {
-      const res = await fetch(`${apiURl}/register`, {
+      const res = await fetch(`${apiNextURl}/register`, {
         method: 'POST',
         body: JSON.stringify({
           email,
           password,
           name,
         }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
       }).then(res => res.json())
       const { success, msg, errors } = res
 
@@ -39,8 +38,8 @@ const Register = ({ history }) => {
         return setState({ ...state, message: msg, errors, isSubmitting: false })
       }
 
-      history.push('/login')
-    } catch (e) {
+      router.push('/login')
+    } catch (e: any) {
       setState({ ...state, message: e.toString(), isSubmitting: false })
     }
   }
@@ -85,12 +84,10 @@ const Register = ({ history }) => {
       <div className="message">{message && <p>&bull; {message}</p>}</div>
       <div>
         {errors &&
-          errors.map((error, id) => {
+          errors.map((error: any, id: string) => {
             return <p key={id}> &bull; {error}</p>
           })}
       </div>
     </div>
   )
 }
-
-export default Register
