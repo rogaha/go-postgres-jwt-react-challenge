@@ -75,10 +75,12 @@ To start the react app navigate to the client directory
        }
 ```
 * /customers [POST] [GET]
-```....
+```
+....
 ```
 * /paymentmethods [POST] [GET]
-```....
+```
+....
 ```
 
 ## Routes

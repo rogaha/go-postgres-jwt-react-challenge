@@ -10,8 +10,8 @@ import (
 	"github.com/rogaha/go-postgres-jwt-react-challenge/server/errors"
 	"github.com/rogaha/go-postgres-jwt-react-challenge/server/utils"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 )
 
 var jwtKey = []byte("secret")

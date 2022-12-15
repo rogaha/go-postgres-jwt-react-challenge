@@ -1,16 +1,18 @@
+FROM golang:1.18-alpine
 
-FROM golang:alpine 
+RUN apk update && apk upgrade && \
+    apk add --no-cache make
 
-RUN apk add --update git
+LABEL maintainer="Roberto Gandolfo Hashioka"
 
-ADD . $GOPATH/src/build/
+WORKDIR /app
 
-WORKDIR $GOPATH/src/build/
+COPY go.mod go.sum ./
 
-RUN go env -w GO111MODULE=off
+RUN go mod download
 
-RUN go get ./...
+COPY . .
 
 EXPOSE 8081
 
-CMD ["go", "run", "main.go"]
+CMD ["make", "build-run"]
