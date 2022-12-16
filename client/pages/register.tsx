@@ -31,6 +31,7 @@ export default function Register() {
           password,
           name,
         }),
+        headers: { 'Content-Type': 'application/json' },
       }).then(res => res.json())
       const { success, msg, errors } = res
 
